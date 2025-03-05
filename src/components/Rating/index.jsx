@@ -22,7 +22,7 @@ const Rating = ({ totalStars = 5, rating = 3, ratingId = "" }) => {
         <RatingStar key={index} filled={index < rating} />
       ))}
 
-      <div style={{ marginTop: "10px", fontSize: "16px", color: "gray" }}>
+      <div style={{ fontSize: "16px", color: "gray" }}>
         Reytinq: {rating} / {totalStars}
       </div>
     </div>
