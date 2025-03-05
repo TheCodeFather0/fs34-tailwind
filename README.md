@@ -1,4 +1,5 @@
-ana sehifede mehsullar olacaq
+ana sehifede mehsullar olacaq +
+mehsullarin detail page yazacayiq
 sebete elave ede bileceyik
 search yazacayiq
 mehsullari getirende loading edeceyik
