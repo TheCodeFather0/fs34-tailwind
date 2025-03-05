@@ -42,11 +42,11 @@ const ProductDetail = () => {
         <div>
           <h2 className="text-4xl font-bold text-slate-500">{product.title}</h2>
           <h2 className="my-3 text-xl">{product.description}</h2>
-          <Rating rating={product.rating} />
 
-          <h2 className="text-3xl text-red-500 font-bold">
+          <h2 className="text-4xl text-red-500 font-bold">
             {product.price} AZN
           </h2>
+          <Rating rating={product.rating} />
         </div>
       </div>
     </>
