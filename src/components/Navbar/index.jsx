@@ -17,8 +17,8 @@ const Navbar = () => {
   return (
     <div className="flex justify-between bg-slate-500 h-[70px] items-center text-white px-5">
       <div>
-        <Link to="/" className="text-2xl font-bold">
-          /Logo
+        <Link to="/" className="text-xl font-bold">
+          NEM Boutique
         </Link>
       </div>
 
