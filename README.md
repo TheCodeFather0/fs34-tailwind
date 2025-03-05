@@ -7,3 +7,4 @@ notfount quracayiq
 routingi optimizasiya edeciyik
 global state management isledeceyik
 fake backend quraciyiq
+.env file
