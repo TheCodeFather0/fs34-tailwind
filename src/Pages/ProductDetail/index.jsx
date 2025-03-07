@@ -33,12 +33,12 @@ const ProductDetail = () => {
       });
   }, []);
 
-  if (!product.slug) {
-    return <NotFound />;
-  }
-
   if (isLoading) {
     return <Loader />;
+  }
+
+  if (!product.slug) {
+    return <NotFound />;
   }
   return (
     <>
