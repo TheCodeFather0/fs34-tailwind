@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import Rating from "../../components/Rating";
 import toast from "react-hot-toast";
 import DataNotFound from "../../components/DataNotFound";
+import NotFound from "../NotFound";
 
 const ProductDetail = () => {
   const { slug } = useParams();
@@ -27,6 +28,9 @@ const ProductDetail = () => {
       });
   }, []);
 
+  if (!setProduct.slug) {
+    return <NotFound />;
+  }
   return (
     <>
       <Navbar />
@@ -36,9 +40,10 @@ const ProductDetail = () => {
           <div className="border-2 border-gray-300 p-8 grid grid-cols-[1fr_100px] gap-5">
             <img src={currentImage} />
             <div className="grid grid-cols-[100px] grid-rows-[100px_100px_100px] object-cover gap-3">
-              {product.images?.map((image) => {
+              {product.images?.map((image, index) => {
                 return (
                   <img
+                    key={index}
                     src={image}
                     className="w-full h-full cursor-pointer"
                     onClick={() => {
