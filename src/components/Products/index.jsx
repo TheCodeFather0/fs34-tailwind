@@ -3,16 +3,19 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router";
 import DataNotFound from "../DataNotFound";
+import Loader from "../Loader";
 
 const Products = () => {
   const url = import.meta.env.VITE_BACKEND_URL;
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     axios
       .get(url)
       .then(({ data }) => {
         setProducts(data);
+        setIsLoading(false);
       })
       .catch((err) => {
         if (err.status === 404) {
@@ -20,6 +23,10 @@ const Products = () => {
         }
       });
   }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       {products.length > 0 ? (
