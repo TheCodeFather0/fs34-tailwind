@@ -7,7 +7,7 @@ import Rating from "../../components/Rating";
 const ProductDetail = () => {
   const { slug } = useParams();
   const [product, setProduct] = useState({});
-  const url = "http://localhost:3000/products";
+  const url = import.meta.env.VITE_BACKEND_URL;
   const [currentImage, setCurrentImage] = useState("");
 
   useEffect(() => {
