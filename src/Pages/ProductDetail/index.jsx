@@ -1,17 +1,19 @@
 import axios from "axios";
-import Navbar from "../../components/Navbar";
-import { useParams } from "react-router";
-import React, { useEffect, useState } from "react";
-import Rating from "../../components/Rating";
-import toast from "react-hot-toast";
-import DataNotFound from "../../components/DataNotFound";
 import NotFound from "../NotFound";
+import toast from "react-hot-toast";
+import { useParams } from "react-router";
+import Loader from "../../components/Loader";
+import Navbar from "../../components/Navbar";
+import Rating from "../../components/Rating";
+import React, { useEffect, useState } from "react";
+import DataNotFound from "../../components/DataNotFound";
 
 const ProductDetail = () => {
   const { slug } = useParams();
   const [product, setProduct] = useState({});
   const url = import.meta.env.VITE_BACKEND_URL;
   const [currentImage, setCurrentImage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     axios
@@ -20,16 +22,23 @@ const ProductDetail = () => {
         const currentElement = data.find((e) => e.slug === slug);
         setProduct(currentElement);
         setCurrentImage(currentElement.images[0]);
+        setIsLoading(false);
       })
       .catch((err) => {
+        setIsLoading(false);
+
         if (err.status === 404) {
           toast.error("backend ilə bağlı xəta!");
         }
       });
   }, []);
 
-  if (!setProduct.slug) {
+  if (!product.slug) {
     return <NotFound />;
+  }
+
+  if (isLoading) {
+    return <Loader />;
   }
   return (
     <>
