@@ -1,16 +1,17 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import Loader from "../Loader";
 import toast from "react-hot-toast";
 import { Link } from "react-router";
 import DataNotFound from "../DataNotFound";
-import Loader from "../Loader";
+import React, { useEffect, useState } from "react";
 
-const Products = () => {
+const Products = ({ searchedText, activeCategory, setActiveCategory }) => {
   const url = import.meta.env.VITE_BACKEND_URL;
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const count = 6;
+  const count = 4;
   const [pages, setPages] = useState(0);
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(startIndex + count);
@@ -21,6 +22,7 @@ const Products = () => {
       .get(url)
       .then(({ data }) => {
         setProducts(data);
+        setFilteredProducts(data);
         setPages(Math.ceil(data.length / count));
         setIsLoading(false);
       })
@@ -37,17 +39,39 @@ const Products = () => {
     setEndIndex(activePage * count);
   }, [activePage]);
 
+  useEffect(() => {
+    if (activeCategory.toLowerCase() === "all") {
+      setPages(Math.ceil(products.length / count));
+      setFilteredProducts(products);
+      setActivePage(1);
+    } else {
+      const filteredData = products.filter(({ category }) => {
+        return category.name.toLowerCase() === activeCategory.toLowerCase();
+      });
+      setPages(Math.ceil(filteredData.length / count));
+      setFilteredProducts(filteredData);
+      setActivePage(1);
+    }
+  }, [activeCategory]);
+
+  useEffect(() => {
+    const filteredData = products.filter(({ title }) => {
+      return title.toLowerCase().includes(searchedText.toLowerCase());
+    });
+    setPages(Math.ceil(filteredData.length / count));
+    setFilteredProducts(filteredData);
+    setActivePage(1);
+    setActiveCategory("All");
+  }, [searchedText]);
+
   if (isLoading) {
     return <Loader />;
   }
-
-  if (pages) {
-  }
   return (
-    <>
-      {products.length > 0 ? (
+    <div className="flex flex-col">
+      {filteredProducts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 my-6 px-5">
-          {products
+          {filteredProducts
             .slice(startIndex, endIndex)
             .map(
               ({ id, title, images, price, category, description, slug }) => {
@@ -84,7 +108,7 @@ const Products = () => {
         <DataNotFound />
       )}
 
-      <div className="flex justify-center space-x-2 mt-4">
+      <div className="flex justify-center space-x-2">
         {new Array(pages).fill("").map((_, index) => {
           return (
             <div
@@ -101,7 +125,7 @@ const Products = () => {
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
 
