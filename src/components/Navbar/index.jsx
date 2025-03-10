@@ -1,10 +1,10 @@
-import React, { useState } from "react";
 import { Link } from "react-router";
-import { ImStatsBars2 } from "react-icons/im";
+import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { SlBasket } from "react-icons/sl";
+import { ImStatsBars2 } from "react-icons/im";
 
-const Navbar = () => {
+const Navbar = ({ searchedText, setSearchedText }) => {
   const [showMobile, setShowMobile] = useState(false);
 
   const links = [
@@ -15,9 +15,9 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="flex justify-between bg-slate-500 h-[70px] items-center text-white px-5">
+    <div className="flex justify-between bg-slate-500 h-[90px] items-center text-white px-5">
       <div>
-        <Link to="/" className="text-xl font-bold">
+        <Link to="/" className="text-3xl font-bold">
           NEM Boutique
         </Link>
       </div>
@@ -27,7 +27,7 @@ const Navbar = () => {
           return (
             <Link
               key={id}
-              className="relative before:content-[''] before:block before:w-[0%] before:h-[3px] before:rounded-2xl before:bg-white before:absolute before:bottom-[-5px] before:duration-500 hover:before:w-[100%] before:left-[50%] before:translate-x-[-50%]"
+              className="relative before:content-[''] before:block before:w-[0%] before:h-[3px] before:rounded-2xl before:bg-white before:absolute before:bottom-[-5px] before:duration-500 hover:before:w-[100%] before:left-[50%] before:translate-x-[-50%] text-xl"
               to={path}
             >
               {title}
@@ -36,10 +36,20 @@ const Navbar = () => {
         })}
       </div>
 
-      <div className="hidden md:flex gap-10 items-center">
-        <input type="text" placeholder="search" className="border" />
-        <Link to="/basket">
-          <SlBasket />
+      <div className="hidden md:flex gap-14 items-center">
+        <input
+          type="text"
+          placeholder="search"
+          value={searchedText}
+          className="border outline-0 px-4
+           py-1 rounded-2xl placeholder:text-white placeholder:text-xl text-xl"
+          onChange={(e) => setSearchedText(e.target.value)}
+        />
+        <Link to="/basket" className="relative">
+          <SlBasket className="text-3xl" />
+          <span className="absolute top-[-15px] left-[-25px] bg-red-400 rounded-full w-6 h-6 flex justify-center items-center">
+            0
+          </span>
         </Link>
       </div>
 
