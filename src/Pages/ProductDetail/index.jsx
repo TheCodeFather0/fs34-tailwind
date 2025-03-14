@@ -7,6 +7,7 @@ import Navbar from "../../components/Navbar";
 import Rating from "../../components/Rating";
 import React, { useEffect, useState } from "react";
 import DataNotFound from "../../components/DataNotFound";
+import UseBasket from "../../Store/Basket";
 
 const ProductDetail = () => {
   const { slug } = useParams();
@@ -14,6 +15,9 @@ const ProductDetail = () => {
   const url = import.meta.env.VITE_BACKEND_URL;
   const [currentImage, setCurrentImage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isAddedBasket, setIsAddedBasket] = useState(false);
+
+  const { basket, addNewProduct } = UseBasket();
 
   useEffect(() => {
     axios
@@ -22,6 +26,9 @@ const ProductDetail = () => {
         const currentElement = data.find((e) => e.slug === slug);
         setProduct(currentElement);
         setCurrentImage(currentElement.images[0]);
+        basket.forEach(({ id }) => {
+          currentElement.id === id && setIsAddedBasket(true);
+        });
         setIsLoading(false);
       })
       .catch((err) => {
@@ -40,6 +47,12 @@ const ProductDetail = () => {
   if (!product.slug) {
     return <NotFound />;
   }
+
+  const addBasket = () => {
+    const data = { ...product, count: 1 };
+    addNewProduct(data);
+    setIsAddedBasket(true);
+  };
   return (
     <>
       <Navbar />
@@ -73,6 +86,14 @@ const ProductDetail = () => {
               {product.price} AZN
             </h2>
             <Rating rating={product.rating} />
+            <button
+              onClick={addBasket}
+              className={`px-4 py-2 rounded-xl text-white mt-4 ${
+                isAddedBasket ? "bg-red-600" : "bg-green-600"
+              }`}
+            >
+              Səbətə əlavə {isAddedBasket ? "edilib" : "et"}
+            </button>
           </div>
         </div>
       ) : (
