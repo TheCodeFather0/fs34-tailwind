@@ -1,11 +1,13 @@
 import { Link } from "react-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { SlBasket } from "react-icons/sl";
 import { ImStatsBars2 } from "react-icons/im";
+import UseBasket from "../../Store/Basket";
 
 const Navbar = ({ searchedText, setSearchedText }) => {
   const [showMobile, setShowMobile] = useState(false);
+  const { basket } = UseBasket();
 
   const links = [
     { id: 0, title: "Home", path: "/" },
@@ -48,7 +50,7 @@ const Navbar = ({ searchedText, setSearchedText }) => {
         <Link to="/basket" className="relative">
           <SlBasket className="text-3xl" />
           <span className="absolute top-[-15px] left-[-25px] bg-red-400 rounded-full w-6 h-6 flex justify-center items-center">
-            0
+            {basket.length}
           </span>
         </Link>
       </div>
