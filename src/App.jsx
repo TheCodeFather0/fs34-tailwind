@@ -1,13 +1,15 @@
 import React from "react";
 import Home from "./Pages/Home";
-import ProductDetail from "./Pages/ProductDetail";
-import { Route, Routes } from "react-router";
+import Basket from "./Pages/Basket";
 import NotFound from "./Pages/NotFound";
+import { Route, Routes } from "react-router";
+import ProductDetail from "./Pages/ProductDetail";
 
 const App = () => {
   const routes = [
     { id: 0, path: "/", element: <Home /> },
     { id: 1, path: "/products/:slug", element: <ProductDetail /> },
+    { id: 2, path: "/basket", element: <Basket /> },
   ];
   return (
     <Routes>
